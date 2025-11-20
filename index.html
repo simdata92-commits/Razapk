@@ -1,327 +1,796 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Pak SIM DataBase</title>
-    <meta name="description" content="Search Pakistan SIM &amp; CNIC details instantly. Get owner name, address, and network info for any mobile number or CNIC. Fast, reliable results.">
-    <!-- <link rel="shortcut icon" href="https://img.icons8.com/ios-filled/50/sim-card.png" type="image/x-icon" /> -->
-    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
-
-    <!-- OG TAGS -->
-    <meta property="og:title" content="Pak SIM DataBase">
-    <meta property="og:description" content="Search Pakistan SIM &amp; CNIC details instantly. Get owner name, address, and network info for any mobile number or CNIC. Fast, reliable results.">
-    <meta property="og:url" content="https://api.nexoracle.com">
-    <meta property="og:type" content="Website">
-    <meta property="og:site_name" content="Pak SIM DataBase">
-    <meta property="og:image" content="https://cdn.nexoracle.com/__dirname/images/nexoracle/logo__1200x630__white_bg.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image" content="https://cdn.nexoracle.com/__dirname/images/nexoracle/logo__1200x__white_bg.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="1200">
-    <meta property="og:image:alt" content="NexOracle logo">
-
-    <script src="js/3.4.16"></script>
-    <link rel="stylesheet" href="css/all.min.css">
-    <script src="js/scrollreveal.js"></script>
-    <script src="js/tailwind.config.js"></script>
-
-    <script src="js/jspdf.umd.min.js"></script>
-    <script src="js/jspdf.plugin.autotable.min.js"></script>
-
-    <link rel="stylesheet" href="css/style.css">
-  </head>
-
-  <body class="bg-dark-900 text-gray-200 min-h-screen">
-    <!-- Notification System -->
-    <div id="notification" class="notification hidden bg-dark-800 border-l-4 border-red-500 text-gray-200 p-4 rounded-lg shadow-lg">
-      <div class="flex items-start">
-        <div class="flex-shrink-0">
-          <i class="fas fa-exclamation-circle text-red-400 text-xl"></i>
+    <title>Arslan Toolkit - Sim Info Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --text-primary: #00ff00;
+            --text-secondary: #00cc00;
+            --accent: #00ff00;
+            --accent-glow: rgba(0, 255, 0, 0.3);
+            --border-color: #003300;
+            --button-bg: #002200;
+            --button-hover: #004400;
+            --error-color: #ff3333;
+            --success-color: #00ff00;
+        }
+        
+        .light-mode {
+            --bg-primary: #f0f0f0;
+            --bg-secondary: #ffffff;
+            --text-primary: #006600;
+            --text-secondary: #008800;
+            --accent: #008800;
+            --accent-glow: rgba(0, 136, 0, 0.2);
+            --border-color: #cccccc;
+            --button-bg: #e0e0e0;
+            --button-hover: #d0d0d0;
+            --error-color: #cc0000;
+            --success-color: #008800;
+        }
+        
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Matrix Background Effect */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        
+        .matrix-char {
+            position: absolute;
+            color: var(--accent);
+            font-size: 14px;
+            animation: matrixFall linear infinite;
+        }
+        
+        @keyframes matrixFall {
+            0% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            box-shadow: 0 0 20px var(--accent-glow);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+            animation: scanning 3s infinite;
+        }
+        
+        @keyframes scanning {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            text-shadow: 0 0 10px var(--accent-glow);
+            letter-spacing: 2px;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--button-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--button-hover);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        
+        .tool-container {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px var(--accent-glow);
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            text-shadow: 0 0 5px var(--accent-glow);
+        }
+        
+        .search-options {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .search-option {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .option-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--button-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+            transition: left 0.5s;
+        }
+        
+        .option-btn:hover::before {
+            left: 100%;
+        }
+        
+        .option-btn.active {
+            background: var(--button-hover);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+        
+        .option-btn:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+        }
+        
+        .input-group {
+            display: flex;
+            margin-bottom: 25px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px 0 0 8px;
+            font-size: 1.1rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            outline: none;
+        }
+        
+        input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+        
+        button {
+            padding: 15px 25px;
+            background: var(--button-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+            transition: left 0.5s;
+        }
+        
+        button:hover::before {
+            left: 100%;
+        }
+        
+        button:hover {
+            background: var(--button-hover);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+        
+        .result-container {
+            margin-top: 20px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .result-row {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .result-label {
+            font-weight: bold;
+            width: 120px;
+            color: var(--text-secondary);
+        }
+        
+        .result-value {
+            flex: 1;
+        }
+        
+        .no-data {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--error-color);
+            padding: 30px;
+        }
+        
+        .more-tools {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .more-tools-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--button-bg);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px var(--accent-glow);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .more-tools-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+            transition: left 0.5s;
+        }
+        
+        .more-tools-btn:hover::before {
+            left: 100%;
+        }
+        
+        .more-tools-btn:hover {
+            background: var(--button-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            color: var(--text-secondary);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+            font-size: 1.2rem;
+        }
+        
+        .loading i {
+            margin-right: 10px;
+            animation: spin 1s linear infinite;
+            color: var(--accent);
+        }
+        
+        .credit {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+        
+        .numbers-count {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+        
+        .number-item {
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .number-header {
+            font-weight: bold;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .created-by {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .validation-error {
+            text-align: center;
+            padding: 20px;
+            color: var(--error-color);
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid var(--error-color);
+        }
+        
+        .example-number {
+            color: var(--accent);
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 600px) {
+            .search-options {
+                flex-direction: column;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            input, button {
+                width: 100%;
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+            
+            .result-row {
+                flex-direction: column;
+            }
+            
+            .result-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="matrix-bg" id="matrixBg"></div>
+    
+    <div class="container">
+        <header>
+            <h1>ARSLAN TOOLKIT</h1>
+            <p class="tagline">SECURE INFORMATION RETRIEVAL SYSTEM</p>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i> DARK MODE
+            </button>
+        </header>
+        
+        <div class="tool-container">
+            <h2 class="tool-title">SIM INFORMATION TOOL</h2>
+            
+            <div class="search-options">
+                <div class="search-option">
+                    <button class="option-btn active" id="phoneOption">
+                        <i class="fas fa-phone"></i> SEARCH BY PHONE
+                    </button>
+                </div>
+                <div class="search-option">
+                    <button class="option-btn" id="cnicOption">
+                        <i class="fas fa-id-card"></i> SEARCH BY CNIC
+                    </button>
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <input type="text" id="searchInput" placeholder="ENTER 11-DIGIT PHONE NUMBER" maxlength="11">
+                <button id="searchBtn">INITIATE SCAN</button>
+            </div>
+            
+            <div class="result-container" id="resultContainer">
+                <div class="no-data">AWAITING INPUT... READY TO SCAN</div>
+            </div>
+            
+            <div class="more-tools">
+                <a href="https://arslantoolkit.gt.tc" class="more-tools-btn" target="_blank">ACCESS MORE TOOLS</a>
+            </div>
+            
+            <div class="created-by">
+                SYSTEM CREATED BY MR. ARSLAN
+            </div>
         </div>
-        <div class="ml-3">
-          <h3 id="notification-title" class="text-lg font-medium"></h3>
-          <div id="notification-message" class="mt-1 text-sm"></div>
-        </div>
-        <button onclick="hideNotification()" class="ml-auto text-gray-400 hover:text-gray-200 focus:outline-none">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
+        
+        <footer>
+            <p>ARSLAN TOOLKIT &copy; 2023 | ALL RIGHTS RESERVED</p>
+            <p>SECURE INFORMATION RETRIEVAL SYSTEM</p>
+        </footer>
     </div>
 
-    <!-- Navigation -->
-    <nav class="bg-dark-800 shadow-xl p-4 sticky top-0 z-50">
-      <div class="container mx-auto flex justify-between items-center">
-        <div class="flex items-center space-x-3">
-          <i class="fas fa-sim-card text-blue-400 text-2xl animate-pulse-slow"></i>
-          <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">Pak SIM DataBase</span>
-        </div>
-        <div class="hidden md:flex space-x-8">
-          <a href="https://nexoracle.com" target="_blank" class="nav-link font-medium hover:text-blue-400 transition">Home</a>
-          <a href="#about" class="nav-link font-medium hover:text-blue-400 transition">About</a>
-          <a href="https://api.nexoracle.com" target="_blank" class="nav-link font-medium hover:text-blue-400 transition">Services</a>
-          <a href="https://github.com/maherxubair/pak-sim-database" target="_blank" class="nav-link font-medium hover:text-blue-400 transition">Source</a>
-          <a href="#faq" class="nav-link font-medium hover:text-blue-400 transition">FAQs</a>
-        </div>
-        <button class="md:hidden text-xl focus:outline-none" id="mobile-menu-button">
-          <i class="fas fa-bars"></i>
-        </button>
-      </div>
-
-      <!-- Mobile Menu -->
-      <div class="md:hidden hidden mt-4 bg-dark-700 rounded-lg p-4" id="mobile-menu">
-        <a href="https://nexoracle.com" target="_blank" class="block py-3 px-4 rounded-lg hover:bg-dark-600 transition flex items-center"> <i class="fas fa-home mr-3 text-blue-400"></i> Home </a>
-        <a href="#about" class="block py-3 px-4 rounded-lg hover:bg-dark-600 transition flex items-center mt-2"> <i class="fas fa-info-circle mr-3 text-blue-400"></i> About </a>
-        <a href="https://api.nexoracle.com" target="_blank" class="block py-3 px-4 rounded-lg hover:bg-dark-600 transition flex items-center"> <i class="fas fa-globe mr-3 text-blue-400"></i> Services </a>
-        <a href="https://github.com/maherxubair/pak-sim-database" class="block py-3 px-4 rounded-lg hover:bg-dark-600 transition flex items-center mt-2"> <i class="fas fa-code mr-3 text-blue-400"></i> Source </a>
-        <a href="#faq" class="block py-3 px-4 rounded-lg hover:bg-dark-600 transition flex items-center mt-2"> <i class="fas fa-question-circle mr-3 text-blue-400"></i> FAQs </a>
-      </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="container mx-auto px-4 py-16 md:py-24">
-      <div class="text-center animate-fade-in">
-        <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">Pak SIM Database</h1>
-        <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Search Pakistan SIM &amp; CNIC details instantly. Get owner name, address, and network info for any mobile number or CNIC. Fast, reliable results.</p>
-      </div>
-    </section>
-
-    <!-- Search Section -->
-    <section class="container mx-auto px-4 py-8 animate-slide-up">
-      <div class="max-w-2xl mx-auto bg-gradient-to-br from-dark-800 to-dark-700 rounded-xl search-box p-8">
-        <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-blue-400">Search SIM Database</h2>
-        <div class="space-y-6">
-          <div>
-            <input type="text" id="searchInput" placeholder="e.g 03000000000" class="w-full px-5 py-3 bg-dark-700 border-2 border-dark-600 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition">
-            <p class="text-sm text-white-500 mt-2 ml-1">Enter SIM or CNIC Number</p>
-          </div>
-          <button id="searchBtn" class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 px-4 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">Search Database</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Results Section -->
-    <section class="container mx-auto px-4 py-12" id="results">
-      <div class="max-w-4xl mx-auto hidden" id="resultsContainer">
-        <h2 class="text-3xl font-bold mb-8 text-blue-400"><i class="fas fa-id-card mr-3"></i> Results</h2>
-        <div id="resultsList" class="space-y-6">
-          <!-- Results will be inserted here -->
-        </div>
-      </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="container mx-auto px-4 py-16" id="about">
-      <div class="max-w-6xl mx-auto">
-        <div class="text-center mb-16 animate-fade-in">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">About Our Service</h2>
-          <p class="text-lg text-gray-400 max-w-3xl mx-auto">The most reliable SIM DataBase platform in Pakistan with advanced features</p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-8 animate-slide-up">
-          <div class="bg-gradient-to-br from-dark-800 to-dark-700 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-dark-700 hover:border-blue-500/30">
-            <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 text-blue-400">
-              <i class="fas fa-shield-alt text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-bold mb-4">Secure Search</h3>
-            <p class="text-gray-400">Our platform uses encrypted connections to ensure your searches remain private and secure.</p>
-          </div>
-
-          <div class="bg-gradient-to-br from-dark-800 to-dark-700 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-dark-700 hover:border-blue-500/30">
-            <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 text-blue-400">
-              <i class="fas fa-bolt text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-bold mb-4">Instant Results</h3>
-            <p class="text-gray-400">Get detailed SIM information instantly without any delays or waiting periods.</p>
-          </div>
-
-          <div class="bg-gradient-to-br from-dark-800 to-dark-700 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-dark-700 hover:border-blue-500/30">
-            <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 text-blue-400">
-              <i class="fas fa-database text-2xl"></i>
-            </div>
-            <h3 class="text-xl font-bold mb-4">Updated Database</h3>
-            <p class="text-gray-400">Our system regularly updates from official sources to provide the most current information.</p>
-          </div>
-        </div>
-      </div>
-      <div class="mt-16 bg-gradient-to-r from-blue-500/10 to-blue-900/10 p-8 rounded-2xl border border-blue-500/20 animate-fade-in">
-        <div class="flex flex-col md:flex-row items-center">
-          <div class="md:w-1/2 mb-6 md:mb-0 md:pr-8">
-            <h3 class="text-2xl font-bold mb-4 text-blue-400">Why Get SIM Details?</h3>
-            <p class="text-gray-400 mb-4">In today's digital world, Searching SIM card details is crucial for security and fraud prevention. Our service helps you:</p>
-            <ul class="space-y-3">
-              <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
-                <span>Identify unknown callers</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
-                <span>Prevent fraudulent activities</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
-                <span>Ensure your SIM is properly registered</span>
-              </li>
-            </ul>
-          </div>
-          <div class="md:w-1/2">
-            <div class="bg-dark-800 p-4 rounded-xl border border-dark-700">
-              <div class="flex items-center mb-4">
-                <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400 mr-4">
-                  <i class="fas fa-mobile-alt"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold">Data Search Process</h4>
-                  <p class="text-sm text-gray-500">Simple and straightforward</p>
-                </div>
-              </div>
-              <div class="space-y-4">
-                <div class="flex items-center">
-                  <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 text-xs font-bold mr-3">1</div>
-                  <span>Enter SIM/CNIC number</span>
-                </div>
-                <div class="flex items-center">
-                  <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 text-xs font-bold mr-3">2</div>
-                  <span>Click search button</span>
-                </div>
-                <div class="flex items-center">
-                  <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 text-xs font-bold mr-3">3</div>
-                  <span>Get instant results</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="container mx-auto px-4 py-16 bg-dark-800/50" id="faq">
-      <div class="max-w-4xl mx-auto">
-        <div class="text-center mb-16 animate-fade-in">
-          <h2 class="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">Frequently Asked Questions</h2>
-          <p class="text-lg text-gray-400 max-w-3xl mx-auto">Find answers to common questions about our service</p>
-        </div>
-
-        <div class="space-y-4 animate-slide-up">
-          <div class="faq-item bg-dark-700 rounded-xl overflow-hidden transition-all duration-300 hover:bg-dark-600/80">
-            <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
-              <span class="text-lg font-medium"> Is this service legal to use? </span>
-              <i class="fas fa-chevron-down text-blue-400 transition-transform duration-300"></i>
-            </button>
-            <div class="faq-content px-6 pb-6 hidden">
-              <div class="text-gray-400">
-                <p>Yes, our service operates within the legal framework of Pakistan. We only provide information that is publicly available through official channels.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item bg-dark-700 rounded-xl overflow-hidden transition-all duration-300 hover:bg-dark-600/80">
-            <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
-              <span class="text-lg font-medium"> How accurate is the information provided? </span>
-              <i class="fas fa-chevron-down text-blue-400 transition-transform duration-300"></i>
-            </button>
-            <div class="faq-content px-6 pb-6 hidden">
-              <div class="text-gray-400">
-                <p>The information is sourced directly from official databases and is updated regularly. We maintain an accuracy rate of over 98% for all verified SIMs.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item bg-dark-700 rounded-xl overflow-hidden transition-all duration-300 hover:bg-dark-600/80">
-            <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
-              <span class="text-lg font-medium">Can I search using a landline number?</span>
-              <i class="fas fa-chevron-down text-blue-400 transition-transform duration-300"></i>
-            </button>
-            <div class="faq-content px-6 pb-6 hidden">
-              <div class="text-gray-400">
-                <p>No, our service currently only supports mobile numbers (0300/0310/0321/0333/0345 etc.) and CNIC searches. Landline numbers cannot be verified through this system.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item bg-dark-700 rounded-xl overflow-hidden transition-all duration-300 hover:bg-dark-600/80">
-            <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
-              <span class="text-lg font-medium">What payment methods do you accept for premium services?</span>
-              <i class="fas fa-chevron-down text-blue-400 transition-transform duration-300"></i>
-            </button>
-            <div class="faq-content px-6 pb-6 hidden">
-              <div class="text-gray-400">
-                <p class="mb-3"><strong>Premium Access Required:</strong> A paid API key is needed for full CNIC searches and complete number lookups.</p>
-                <p><strong>Accepted Payment Methods:</strong></p>
-                <ul class="list-disc pl-5 space-y-1">
-                  <li>Mobile Wallets (JazzCash, EasyPaisa)</li>
-                  <li>Bank Transfers</li>
-                  <li>Credit/Debit Cards</li>
-                  <li>Cryptocurrency (Binance)</li>
-                  <li>International Wire Transfers</li>
-                </ul>
-                <p class="mt-3">Contact our WhatsApp support for payment instructions and API key activation.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item bg-dark-700 rounded-xl overflow-hidden transition-all duration-300 hover:bg-dark-600/80">
-            <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
-              <span class="text-lg font-medium"> What should I do if the information is incorrect? </span>
-              <i class="fas fa-chevron-down text-blue-400 transition-transform duration-300"></i>
-            </button>
-            <div class="faq-content px-6 pb-6 hidden">
-              <div class="text-gray-400">
-                <p>If you find any discrepancies in your SIM registration details, please contact your network provider immediately to update your information in their system.</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item bg-dark-700 rounded-xl overflow-hidden transition-all duration-300 hover:bg-dark-600/80">
-            <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
-              <span class="text-lg font-medium">Is my search history stored or recorded?</span>
-              <i class="fas fa-chevron-down text-blue-400 transition-transform duration-300"></i>
-            </button>
-            <div class="faq-content px-6 pb-6 hidden">
-              <div class="text-gray-400">
-                <p>No, we do not store or log your search queries. All searches are processed anonymously and no personal search history is retained on our systems.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-dark-900 py-12 border-t border-dark-800">
-      <div class="container mx-auto px-4">
-        <div class="flex flex-col md:flex-row justify-between items-center">
-          <div class="flex items-center mb-6 md:mb-0">
-            <i class="fas fa-sim-card text-blue-400 text-2xl mr-3"></i>
-            <span class="text-xl font-bold">Pak SIM Database</span>
-          </div>
-          <div class="flex space-x-6 mb-6 md:mb-0">
-            <a href="https://www.whatsapp.com/channel/0029VajyNbpAojYwtQ9Lwr32" class="text-gray-400 hover:text-blue-400 transition text-xl">
-              <i class="fab fa-whatsapp"></i>
-            </a>
-            <a href="https://youtube.com/@InnoxentTech" class="text-gray-400 hover:text-blue-400 transition text-xl">
-              <i class="fab fa-youtube"></i>
-            </a>
-            <a href="https://instagram.com/nexoracle" class="text-gray-400 hover:text-blue-400 transition text-xl">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://github.com/maherxubair/pak-sim-database" class="text-gray-400 hover:text-blue-400 transition text-xl">
-              <i class="fab fa-github"></i>
-            </a>
-          </div>
-        </div>
-        <div class="border-t border-dark-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p class="text-gray-500 mb-4 md:mb-0 text-center md:text-left">&copy; 2025 Pak SIM Database.</p>
-          <p class="text-gray-500 text-center md:text-right">Designed and developed by <a href="https://nexoracle.com" target="_blank" class="text-blue-400 hover:underline">NexOracle</a></p>
-        </div>
-      </div>
-    </footer>
-
-    <script src="js/script.js"></script>
-  </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Matrix background effect
+            function createMatrixEffect() {
+                const matrixBg = document.getElementById('matrixBg');
+                const chars = '01010101010101010101010101010101ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#@%&';
+                
+                for (let i = 0; i < 50; i++) {
+                    const char = document.createElement('div');
+                    char.className = 'matrix-char';
+                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                    char.style.left = Math.random() * 100 + 'vw';
+                    char.style.animationDuration = (Math.random() * 10 + 5) + 's';
+                    char.style.animationDelay = Math.random() * 5 + 's';
+                    matrixBg.appendChild(char);
+                }
+            }
+            
+            createMatrixEffect();
+            
+            // Theme toggle
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('light-mode');
+                if (document.body.classList.contains('light-mode')) {
+                    themeToggle.innerHTML = '<i class="fas fa-sun"></i> LIGHT MODE';
+                } else {
+                    themeToggle.innerHTML = '<i class="fas fa-moon"></i> DARK MODE';
+                }
+            });
+            
+            const searchBtn = document.getElementById('searchBtn');
+            const searchInput = document.getElementById('searchInput');
+            const resultContainer = document.getElementById('resultContainer');
+            const phoneOption = document.getElementById('phoneOption');
+            const cnicOption = document.getElementById('cnicOption');
+            
+            let searchType = 'phone'; // Default search type
+            
+            // Event listeners for search type selection
+            phoneOption.addEventListener('click', function() {
+                searchType = 'phone';
+                phoneOption.classList.add('active');
+                cnicOption.classList.remove('active');
+                searchInput.placeholder = 'ENTER 11-DIGIT PHONE NUMBER';
+                searchInput.maxLength = 11;
+                searchInput.value = '';
+                resultContainer.innerHTML = '<div class="no-data">ENTER 11-DIGIT PHONE TO SCAN</div>';
+            });
+            
+            cnicOption.addEventListener('click', function() {
+                searchType = 'cnic';
+                cnicOption.classList.add('active');
+                phoneOption.classList.remove('active');
+                searchInput.placeholder = 'ENTER 13-DIGIT CNIC NUMBER';
+                searchInput.maxLength = 13;
+                searchInput.value = '';
+                resultContainer.innerHTML = '<div class="no-data">ENTER 13-DIGIT CNIC TO SCAN</div>';
+            });
+            
+            searchBtn.addEventListener('click', searchInfo);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchInfo();
+                }
+            });
+            
+            function searchInfo() {
+                const searchValue = searchInput.value.trim();
+                
+                if (!searchValue) {
+                    showError(`PLEASE ENTER A ${searchType === 'phone' ? 'PHONE NUMBER' : 'CNIC NUMBER'}`);
+                    return;
+                }
+                
+                // Phone number validation
+                if (searchType === 'phone') {
+                    if (!/^\d+$/.test(searchValue)) {
+                        showValidationError('INVALID PHONE NUMBER', 'Phone number should contain only digits', '03123456789');
+                        return;
+                    }
+                    if (searchValue.length !== 11) {
+                        showValidationError('INVALID PHONE NUMBER LENGTH', 'Phone number must be exactly 11 digits', '03123456789');
+                        return;
+                    }
+                }
+                
+                // CNIC validation
+                if (searchType === 'cnic') {
+                    if (!/^\d+$/.test(searchValue)) {
+                        showValidationError('INVALID CNIC NUMBER', 'CNIC should contain only digits', '0000000000000');
+                        return;
+                    }
+                    if (searchValue.length !== 13) {
+                        showValidationError('INVALID CNIC LENGTH', 'CNIC must be exactly 13 digits', '0000000000000');
+                        return;
+                    }
+                }
+                
+                // Show loading state
+                resultContainer.innerHTML = `
+                    <div class="loading">
+                        <i class="fas fa-spinner"></i> SCANNING DATABASE... PLEASE WAIT
+                    </div>
+                `;
+                
+                // Use the same API for both phone and CNIC search
+                searchByNumber(searchValue, searchType);
+            }
+            
+            function searchByNumber(searchValue, type) {
+                // Same API for both phone and CNIC
+                const apiUrl = `https://fam-official.serv00.net/api/database.php?number=${searchValue}`;
+                
+                fetch(apiUrl)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('NETWORK RESPONSE ERROR');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('API Response:', data);
+                        handleApiResponse(data, type, searchValue);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching data:', error);
+                        // Try with proxy if direct fetch fails
+                        tryProxyFetch(searchValue, type);
+                    });
+            }
+            
+            function tryProxyFetch(searchValue, type) {
+                const proxyUrl = 'https://api.allorigins.win/raw?url=';
+                const apiUrl = `https://fam-official.serv00.net/api/database.php?number=${searchValue}`;
+                
+                const url = proxyUrl + encodeURIComponent(apiUrl);
+                
+                fetch(url)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('PROXY RESPONSE ERROR');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Proxy API Response:', data);
+                        handleApiResponse(data, type, searchValue);
+                    })
+                    .catch(error => {
+                        console.error('Proxy fetch failed:', error);
+                        showError('DATABASE CONNECTION FAILED. TRY AGAIN.');
+                    });
+            }
+            
+            function handleApiResponse(data, type, searchValue) {
+                // Check if API returned success and has data
+                if (data && data.success && data.data && data.data.length > 0) {
+                    if (type === 'cnic') {
+                        // For CNIC search, show all numbers associated with this CNIC
+                        displayMultipleResults(data.data, searchValue);
+                    } else {
+                        // For phone search, show single result
+                        displaySingleResult(data.data[0]);
+                    }
+                } else {
+                    showNoData();
+                }
+            }
+            
+            function displaySingleResult(userData) {
+                // Extract data from the nested response structure
+                const name = userData.name || "DATA NOT AVAILABLE";
+                const number = userData.number || "DATA NOT AVAILABLE";
+                const cnic = userData.cnic || "DATA NOT AVAILABLE";
+                const address = userData.address || "DATA NOT AVAILABLE";
+                
+                resultContainer.innerHTML = `
+                    <div class="result-row">
+                        <div class="result-label">NAME:</div>
+                        <div class="result-value">${name}</div>
+                    </div>
+                    <div class="result-row">
+                        <div class="result-label">NUMBER:</div>
+                        <div class="result-value">${number}</div>
+                    </div>
+                    <div class="result-row">
+                        <div class="result-label">CNIC:</div>
+                        <div class="result-value">${cnic}</div>
+                    </div>
+                    <div class="result-row">
+                        <div class="result-label">ADDRESS:</div>
+                        <div class="result-value">${address}</div>
+                    </div>
+                    <div class="credit">CREDIT: MR. ARSLAN</div>
+                `;
+            }
+            
+            function displayMultipleResults(userDataArray, cnicNumber) {
+                // Show all numbers associated with this CNIC
+                const numbersCount = userDataArray.length;
+                
+                let resultsHTML = `
+                    <div class="numbers-count">
+                        <i class="fas fa-mobile-alt"></i> TOTAL ${numbersCount} NUMBER(S) FOUND FOR CNIC: ${cnicNumber}
+                    </div>
+                `;
+                
+                userDataArray.forEach((userData, index) => {
+                    const name = userData.name || "DATA NOT AVAILABLE";
+                    const number = userData.number || "DATA NOT AVAILABLE";
+                    const cnic = userData.cnic || "DATA NOT AVAILABLE";
+                    const address = userData.address || "DATA NOT AVAILABLE";
+                    
+                    resultsHTML += `
+                        <div class="number-item">
+                            <div class="number-header">NUMBER ${index + 1}: ${number}</div>
+                            <div class="result-row">
+                                <div class="result-label">NAME:</div>
+                                <div class="result-value">${name}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">CNIC:</div>
+                                <div class="result-value">${cnic}</div>
+                            </div>
+                            <div class="result-row">
+                                <div class="result-label">ADDRESS:</div>
+                                <div class="result-value">${address}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                resultsHTML += `<div class="credit">CREDIT: MR. ARSLAN</div>`;
+                
+                resultContainer.innerHTML = resultsHTML;
+            }
+            
+            function showValidationError(title, message, example) {
+                resultContainer.innerHTML = `
+                    <div class="validation-error">
+                        <i class="fas fa-exclamation-triangle"></i><br>
+                        <strong>${title}</strong><br>
+                        ${message}<br>
+                        <div class="example-number">EXAMPLE: ${example}</div>
+                    </div>
+                `;
+            }
+            
+            function showNoData() {
+                resultContainer.innerHTML = `
+                    <div class="no-data">
+                        <i class="fas fa-exclamation-circle"></i><br>
+                        DATA NOT FOUND IN DATABASE
+                    </div>
+                `;
+            }
+            
+            function showError(message) {
+                resultContainer.innerHTML = `
+                    <div class="no-data">
+                        <i class="fas fa-exclamation-triangle"></i><br>
+                        ${message}
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
 </html>
