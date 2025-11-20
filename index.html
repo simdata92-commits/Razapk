@@ -1,545 +1,327 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
-<head>
-
+  <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>VIP Ali Sim Database</title>
-
-    <meta name="description" content="Sim Data, Sim Database, Sim details ownership, VIP Sim Database.">
-
-    
-
-    <!-- VIP Design Fonts -->
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Source+Code+Pro:wght@400&display=swap" rel="stylesheet">
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-
-    <style>
-
-        /* --- FINAL VIP DESIGN - Dark Neumorphism --- */
-
-        :root {
-
-            --primary-green: #25D366;
-
-            --glow-color: rgba(37, 211, 102, 0.7);
-
-            --bg-color: #2c2f33;
-
-            --light-shadow-color: #373a3f;
-
-            --dark-shadow-color: #212326;
-
-            --text-color: #e0e0e0;
-
-            --text-color-muted: #888;
-
-        }
-
-        /* --- Basic Reset & Base Styling --- */
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html, body {
-
-            font-family: 'Poppins', sans-serif;
-
-            background-color: var(--bg-color);
-
-            color: var(--text-color);
-
-            text-align: center;
-
-        }
-
-        .container {
-
-            max-width: 700px;
-
-            margin: 0 auto;
-
-            padding: 20px;
-
-        }
-
-        /* --- VIP Header --- */
-
-        .header {
-
-            font-size: 2.5em;
-
-            font-weight: 700;
-
-            color: var(--primary-green);
-
-            text-shadow: 0 0 8px var(--glow-color);
-
-            margin: 30px 0;
-
-        }
-
-        /* --- VIP Card Style --- */
-
-        .card {
-
-            background: var(--bg-color);
-
-            border-radius: 20px;
-
-            box-shadow: 8px 8px 16px var(--dark-shadow-color), -8px -8px 16px var(--light-shadow-color);
-
-            padding: 30px;
-
-            margin-bottom: 30px;
-
-            text-align: left;
-
-        }
-
-        .card h2 {
-
-            text-align: center;
-
-            margin-bottom: 25px;
-
-            font-weight: 600;
-
-        }
-
-        /* --- VIP Form Elements --- */
-
-        #query {
-
-            width: 100%;
-
-            padding: 18px;
-
-            border: none;
-
-            border-radius: 12px;
-
-            font-size: 1em;
-
-            text-align: center;
-
-            background-color: var(--bg-color);
-
-            color: var(--text-color);
-
-            box-shadow: inset 4px 4px 8px var(--dark-shadow-color), inset -4px -4px 8px var(--light-shadow-color);
-
-        }
-
-        #query:focus {
-
-            outline: none;
-
-            box-shadow: 0 0 0 2px var(--primary-green), inset 2px 2px 4px var(--dark-shadow-color), inset -2px -2px 4px var(--light-shadow-color);
-
-        }
-
-        #query::placeholder { color: var(--text-color-muted); }
-
-        .search-btn {
-
-            width: 100%;
-
-            margin-top: 20px;
-
-            padding: 16px;
-
-            font-size: 1.2em;
-
-            font-weight: 600;
-
-            background: var(--primary-green);
-
-            color: #000;
-
-            border: none;
-
-            border-radius: 12px;
-
-            cursor: pointer;
-
-            transition: all 0.2s ease;
-
-            box-shadow: 4px 4px 10px var(--dark-shadow-color), -4px -4px 10px var(--light-shadow-color), 0px 0px 15px var(--glow-color);
-
-        }
-
-        .search-btn:hover {
-
-            transform: translateY(-2px);
-
-            box-shadow: 6px 6px 12px var(--dark-shadow-color), -6px -6px 12px var(--light-shadow-color), 0px 0px 25px var(--glow-color);
-
-        }
-
-        .warning { color: var(--text-color-muted); margin-top: 15px; font-size: 0.9em; text-align: center; }
-
-        /* --- VIP Results & Notifications --- */
-
-        #results { margin-top: 20px; }
-
-        .result-box {
-
-            background-color: var(--bg-color);
-
-            border-radius: 12px;
-
-            padding: 20px;
-
-            margin-bottom: 15px;
-
-            box-shadow: inset 4px 4px 8px var(--dark-shadow-color), inset -4px -4px 8px var(--light-shadow-color);
-
-            animation: fadeIn 0.5s ease;
-
-        }
-
-        .result-box p {
-
-            font-size: 1rem;
-
-            margin: 10px 0;
-
-            display: flex;
-
-            justify-content: space-between;
-
-        }
-
-        .label { font-weight: 600; color: var(--text-color-muted); margin-right: 15px; }
-
-        .result-box .value { font-family: 'Source Code Pro', monospace; color: var(--text-color); }
-
-        #noData {
-
-            margin-top: 20px;
-
-            padding: 20px;
-
-            border-radius: 12px;
-
-            background: var(--bg-color);
-
-            box-shadow: inset 4px 4px 8px var(--dark-shadow-color), inset -4px -4px 8px var(--light-shadow-color);
-
-            color: var(--text-color-muted);
-
-            line-height: 1.7;
-
-            text-align: center;
-
-        }
-
-        #noData a {
-
-            display: block;
-
-            margin-top: 15px;
-
-            color: var(--primary-green);
-
-            font-weight: 600;
-
-            text-decoration: none;
-
-        }
-
-        /* --- Paid Services Section --- */
-
-        .service-list {
-
-            list-style-type: none;
-
-            padding: 0;
-
-            font-size: 1rem;
-
-        }
-
-        .service-list li {
-
-            padding: 12px 0;
-
-            border-bottom: 1px solid var(--dark-shadow-color);
-
-        }
-
-        .service-list li::before {
-
-            content: "✅";
-
-            margin-right: 10px;
-
-            color: var(--primary-green);
-
-        }
-
-        .service-list li:last-child { border-bottom: none; }
-
-        
-
-        /* --- Disclaimer & Contact --- */
-
-        .card h3 { color: var(--text-color); margin-bottom: 15px; border-bottom: 1px solid var(--dark-shadow-color); padding-bottom: 10px; }
-
-        .card p { line-height: 1.7; color: var(--text-color-muted); }
-
-        .contact-list { list-style: none; padding: 0; }
-
-        .contact-list li { margin: 10px 0; }
-
-        .contact-list i { margin-right: 10px; color: var(--primary-green); width: 20px; text-align: center; }
-
-        .contact-list a { color: var(--text-color); text-decoration: none; transition: color 0.2s; }
-
-        .contact-list a:hover { color: var(--primary-green); }
-
-        /* --- Footer --- */
-
-        footer { padding: 30px 20px; text-align: center; border-top: 1px solid var(--dark-shadow-color); margin-top: 20px; }
-
-        footer p { color: var(--text-color-muted); }
-
-        .hidden { display: none; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-    </style>
-
-</head>
-
-<body>
-
-    <div class="container">
-
-        <div class="header">YOUR WEBSITE NAME</div>
-
-        <div class="card">
-
-            <input type="text" id="query" placeholder="Enter Mobile e.g. 030000XXXXX" />
-
-            <button class="search-btn" onclick="searchData()">Search <i class="fa fa-search"></i></button>
-
-            <p class="warning">Enter Number Like This: 030000XXXXX</p>
-
+    <title>Pak SIM DataBase</title>
+    <meta name="description" content="Search Pakistan SIM &amp; CNIC details instantly. Get owner name, address, and network info for any mobile number or CNIC. Fast, reliable results.">
+    <!-- <link rel="shortcut icon" href="https://img.icons8.com/ios-filled/50/sim-card.png" type="image/x-icon" /> -->
+    <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+
+    <!-- OG TAGS -->
+    <meta property="og:title" content="Pak SIM DataBase">
+    <meta property="og:description" content="Search Pakistan SIM &amp; CNIC details instantly. Get owner name, address, and network info for any mobile number or CNIC. Fast, reliable results.">
+    <meta property="og:url" content="https://api.nexoracle.com">
+    <meta property="og:type" content="Website">
+    <meta property="og:site_name" content="Pak SIM DataBase">
+    <meta property="og:image" content="https://cdn.nexoracle.com/__dirname/images/nexoracle/logo__1200x630__white_bg.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image" content="https://cdn.nexoracle.com/__dirname/images/nexoracle/logo__1200x__white_bg.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="1200">
+    <meta property="og:image:alt" content="NexOracle logo">
+
+    <script src="js/3.4.16"></script>
+    <link rel="stylesheet" href="css/all.min.css">
+    <script src="js/scrollreveal.js"></script>
+    <script src="js/tailwind.config.js"></script>
+
+    <script src="js/jspdf.umd.min.js"></script>
+    <script src="js/jspdf.plugin.autotable.min.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body class="bg-dark-900 text-gray-200 min-h-screen">
+    <!-- Notification System -->
+    <div id="notification" class="notification hidden bg-dark-800 border-l-4 border-red-500 text-gray-200 p-4 rounded-lg shadow-lg">
+      <div class="flex items-start">
+        <div class="flex-shrink-0">
+          <i class="fas fa-exclamation-circle text-red-400 text-xl"></i>
         </div>
-
-        <div id="results"></div>
-
-        <p class="hidden" id="noData"></p>
-
-        <div class="card services">
-
-            <h2>Paid Services</h2>
-
-            <ul class="service-list">
-
-                <li>Fresh Sim Details</li>
-
-                <li>CNIC Numbers Check</li>
-
-                <li>CNIC Colour Picture</li>
-
-                <li>CDR - Call Detail Records</li>
-
-                <li>Family Tree & FRC Details</li>
-
-                <li>Mobile IMEI Tracking</li>
-
-                <li>SIM Live Location Trace</li>
-
-                <li>Vehicle Details Check</li>
-
-                <li>Passport Copy & Details</li>
-
-                <li>Bank Statement & Details</li>
-
-                <li><strong>More Services Available...</strong></li>
-
-            </ul>
-
+        <div class="ml-3">
+          <h3 id="notification-title" class="text-lg font-medium"></h3>
+          <div id="notification-message" class="mt-1 text-sm"></div>
         </div>
-
-        
-
-        <div class="card">
-
-             <h3>🚨 Disclaimer</h3>
-
-             <p>All services and website are for educational, security, and verification purposes only. We do not support or promote illegal access or misuse of data.</p>
-
-        </div>
-
-        <div class="card">
-
-             <h3>Contact Us</h3>
-
-             <ul class="contact-list">
-
-                <li><i class="fa fa-phone"></i><a href="tel:+923277712441" -envelope"></i><a href="YOUR EMILE"></a></li>
-
-             </ul>
-
-        </div>
-
+        <button onclick="hideNotification()" class="ml-auto text-gray-400 hover:text-gray-200 focus:outline-none">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
     </div>
 
-    
+    <!-- Navigation -->
+    <nav class="bg-dark-800 shadow-xl p-4 sticky top-0 z-50">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <i class="fas fa-sim-card text-blue-400 text-2xl animate-pulse-slow"></i>
+          <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">Pak SIM DataBase</span>
+        </div>
+        <div class="hidden md:flex space-x-8">
+          <a href="https://nexoracle.com" target="_blank" class="nav-link font-medium hover:text-blue-400 transition">Home</a>
+          <a href="#about" class="nav-link font-medium hover:text-blue-400 transition">About</a>
+          <a href="https://api.nexoracle.com" target="_blank" class="nav-link font-medium hover:text-blue-400 transition">Services</a>
+          <a href="https://github.com/maherxubair/pak-sim-database" target="_blank" class="nav-link font-medium hover:text-blue-400 transition">Source</a>
+          <a href="#faq" class="nav-link font-medium hover:text-blue-400 transition">FAQs</a>
+        </div>
+        <button class="md:hidden text-xl focus:outline-none" id="mobile-menu-button">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
 
-    <footer>
+      <!-- Mobile Menu -->
+      <div class="md:hidden hidden mt-4 bg-dark-700 rounded-lg p-4" id="mobile-menu">
+        <a href="https://nexoracle.com" target="_blank" class="block py-3 px-4 rounded-lg hover:bg-dark-600 transition flex items-center"> <i class="fas fa-home mr-3 text-blue-400"></i> Home </a>
+        <a href="#about" class="block py-3 px-4 rounded-lg hover:bg-dark-600 transition flex items-center mt-2"> <i class="fas fa-info-circle mr-3 text-blue-400"></i> About </a>
+        <a href="https://api.nexoracle.com" target="_blank" class="block py-3 px-4 rounded-lg hover:bg-dark-600 transition flex items-center"> <i class="fas fa-globe mr-3 text-blue-400"></i> Services </a>
+        <a href="https://github.com/maherxubair/pak-sim-database" class="block py-3 px-4 rounded-lg hover:bg-dark-600 transition flex items-center mt-2"> <i class="fas fa-code mr-3 text-blue-400"></i> Source </a>
+        <a href="#faq" class="block py-3 px-4 rounded-lg hover:bg-dark-600 transition flex items-center mt-2"> <i class="fas fa-question-circle mr-3 text-blue-400"></i> FAQs </a>
+      </div>
+    </nav>
 
-        <p>Copyright © 2025 YOUR NAME . All Rights Reserved.</p>
+    <!-- Hero Section -->
+    <section class="container mx-auto px-4 py-16 md:py-24">
+      <div class="text-center animate-fade-in">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">Pak SIM Database</h1>
+        <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto">Search Pakistan SIM &amp; CNIC details instantly. Get owner name, address, and network info for any mobile number or CNIC. Fast, reliable results.</p>
+      </div>
+    </section>
 
+    <!-- Search Section -->
+    <section class="container mx-auto px-4 py-8 animate-slide-up">
+      <div class="max-w-2xl mx-auto bg-gradient-to-br from-dark-800 to-dark-700 rounded-xl search-box p-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center text-blue-400">Search SIM Database</h2>
+        <div class="space-y-6">
+          <div>
+            <input type="text" id="searchInput" placeholder="e.g 03000000000" class="w-full px-5 py-3 bg-dark-700 border-2 border-dark-600 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition">
+            <p class="text-sm text-white-500 mt-2 ml-1">Enter SIM or CNIC Number</p>
+          </div>
+          <button id="searchBtn" class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 px-4 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">Search Database</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="container mx-auto px-4 py-12" id="results">
+      <div class="max-w-4xl mx-auto hidden" id="resultsContainer">
+        <h2 class="text-3xl font-bold mb-8 text-blue-400"><i class="fas fa-id-card mr-3"></i> Results</h2>
+        <div id="resultsList" class="space-y-6">
+          <!-- Results will be inserted here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="container mx-auto px-4 py-16" id="about">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 animate-fade-in">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">About Our Service</h2>
+          <p class="text-lg text-gray-400 max-w-3xl mx-auto">The most reliable SIM DataBase platform in Pakistan with advanced features</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 animate-slide-up">
+          <div class="bg-gradient-to-br from-dark-800 to-dark-700 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-dark-700 hover:border-blue-500/30">
+            <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 text-blue-400">
+              <i class="fas fa-shield-alt text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Secure Search</h3>
+            <p class="text-gray-400">Our platform uses encrypted connections to ensure your searches remain private and secure.</p>
+          </div>
+
+          <div class="bg-gradient-to-br from-dark-800 to-dark-700 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-dark-700 hover:border-blue-500/30">
+            <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 text-blue-400">
+              <i class="fas fa-bolt text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Instant Results</h3>
+            <p class="text-gray-400">Get detailed SIM information instantly without any delays or waiting periods.</p>
+          </div>
+
+          <div class="bg-gradient-to-br from-dark-800 to-dark-700 p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-dark-700 hover:border-blue-500/30">
+            <div class="w-14 h-14 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 text-blue-400">
+              <i class="fas fa-database text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Updated Database</h3>
+            <p class="text-gray-400">Our system regularly updates from official sources to provide the most current information.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-16 bg-gradient-to-r from-blue-500/10 to-blue-900/10 p-8 rounded-2xl border border-blue-500/20 animate-fade-in">
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 mb-6 md:mb-0 md:pr-8">
+            <h3 class="text-2xl font-bold mb-4 text-blue-400">Why Get SIM Details?</h3>
+            <p class="text-gray-400 mb-4">In today's digital world, Searching SIM card details is crucial for security and fraud prevention. Our service helps you:</p>
+            <ul class="space-y-3">
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
+                <span>Identify unknown callers</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
+                <span>Prevent fraudulent activities</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-green-400 mt-1 mr-3"></i>
+                <span>Ensure your SIM is properly registered</span>
+              </li>
+            </ul>
+          </div>
+          <div class="md:w-1/2">
+            <div class="bg-dark-800 p-4 rounded-xl border border-dark-700">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-blue-500/10 rounded-lg flex items-center justify-center text-blue-400 mr-4">
+                  <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold">Data Search Process</h4>
+                  <p class="text-sm text-gray-500">Simple and straightforward</p>
+                </div>
+              </div>
+              <div class="space-y-4">
+                <div class="flex items-center">
+                  <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 text-xs font-bold mr-3">1</div>
+                  <span>Enter SIM/CNIC number</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 text-xs font-bold mr-3">2</div>
+                  <span>Click search button</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 text-xs font-bold mr-3">3</div>
+                  <span>Get instant results</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="container mx-auto px-4 py-16 bg-dark-800/50" id="faq">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16 animate-fade-in">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">Frequently Asked Questions</h2>
+          <p class="text-lg text-gray-400 max-w-3xl mx-auto">Find answers to common questions about our service</p>
+        </div>
+
+        <div class="space-y-4 animate-slide-up">
+          <div class="faq-item bg-dark-700 rounded-xl overflow-hidden transition-all duration-300 hover:bg-dark-600/80">
+            <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
+              <span class="text-lg font-medium"> Is this service legal to use? </span>
+              <i class="fas fa-chevron-down text-blue-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-content px-6 pb-6 hidden">
+              <div class="text-gray-400">
+                <p>Yes, our service operates within the legal framework of Pakistan. We only provide information that is publicly available through official channels.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item bg-dark-700 rounded-xl overflow-hidden transition-all duration-300 hover:bg-dark-600/80">
+            <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
+              <span class="text-lg font-medium"> How accurate is the information provided? </span>
+              <i class="fas fa-chevron-down text-blue-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-content px-6 pb-6 hidden">
+              <div class="text-gray-400">
+                <p>The information is sourced directly from official databases and is updated regularly. We maintain an accuracy rate of over 98% for all verified SIMs.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item bg-dark-700 rounded-xl overflow-hidden transition-all duration-300 hover:bg-dark-600/80">
+            <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
+              <span class="text-lg font-medium">Can I search using a landline number?</span>
+              <i class="fas fa-chevron-down text-blue-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-content px-6 pb-6 hidden">
+              <div class="text-gray-400">
+                <p>No, our service currently only supports mobile numbers (0300/0310/0321/0333/0345 etc.) and CNIC searches. Landline numbers cannot be verified through this system.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item bg-dark-700 rounded-xl overflow-hidden transition-all duration-300 hover:bg-dark-600/80">
+            <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
+              <span class="text-lg font-medium">What payment methods do you accept for premium services?</span>
+              <i class="fas fa-chevron-down text-blue-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-content px-6 pb-6 hidden">
+              <div class="text-gray-400">
+                <p class="mb-3"><strong>Premium Access Required:</strong> A paid API key is needed for full CNIC searches and complete number lookups.</p>
+                <p><strong>Accepted Payment Methods:</strong></p>
+                <ul class="list-disc pl-5 space-y-1">
+                  <li>Mobile Wallets (JazzCash, EasyPaisa)</li>
+                  <li>Bank Transfers</li>
+                  <li>Credit/Debit Cards</li>
+                  <li>Cryptocurrency (Binance)</li>
+                  <li>International Wire Transfers</li>
+                </ul>
+                <p class="mt-3">Contact our WhatsApp support for payment instructions and API key activation.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item bg-dark-700 rounded-xl overflow-hidden transition-all duration-300 hover:bg-dark-600/80">
+            <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
+              <span class="text-lg font-medium"> What should I do if the information is incorrect? </span>
+              <i class="fas fa-chevron-down text-blue-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-content px-6 pb-6 hidden">
+              <div class="text-gray-400">
+                <p>If you find any discrepancies in your SIM registration details, please contact your network provider immediately to update your information in their system.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item bg-dark-700 rounded-xl overflow-hidden transition-all duration-300 hover:bg-dark-600/80">
+            <button class="faq-btn w-full flex justify-between items-center p-6 text-left">
+              <span class="text-lg font-medium">Is my search history stored or recorded?</span>
+              <i class="fas fa-chevron-down text-blue-400 transition-transform duration-300"></i>
+            </button>
+            <div class="faq-content px-6 pb-6 hidden">
+              <div class="text-gray-400">
+                <p>No, we do not store or log your search queries. All searches are processed anonymously and no personal search history is retained on our systems.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-900 py-12 border-t border-dark-800">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="flex items-center mb-6 md:mb-0">
+            <i class="fas fa-sim-card text-blue-400 text-2xl mr-3"></i>
+            <span class="text-xl font-bold">Pak SIM Database</span>
+          </div>
+          <div class="flex space-x-6 mb-6 md:mb-0">
+            <a href="https://www.whatsapp.com/channel/0029VajyNbpAojYwtQ9Lwr32" class="text-gray-400 hover:text-blue-400 transition text-xl">
+              <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://youtube.com/@InnoxentTech" class="text-gray-400 hover:text-blue-400 transition text-xl">
+              <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://instagram.com/nexoracle" class="text-gray-400 hover:text-blue-400 transition text-xl">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://github.com/maherxubair/pak-sim-database" class="text-gray-400 hover:text-blue-400 transition text-xl">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+        </div>
+        <div class="border-t border-dark-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-500 mb-4 md:mb-0 text-center md:text-left">&copy; 2025 Pak SIM Database.</p>
+          <p class="text-gray-500 text-center md:text-right">Designed and developed by <a href="https://nexoracle.com" target="_blank" class="text-blue-400 hover:underline">NexOracle</a></p>
+        </div>
+      </div>
     </footer>
 
-    <script>
-
-        // --- YOUR JAVASCRIPT LOGIC IS PRESERVED ---
-
-        const whatsappLink = 'https://wa.me/9230000XXXX';
-
-        function searchData() {
-
-            const query = document.getElementById("query").value.trim().replace(/\s+/g, '');
-
-            const url = `https://pakdatabase.site/api/search.php?username=Kami&password=123456&search_term=${encodeURIComponent(query)}`;
-
-            const resultsContainer = document.getElementById("results");
-
-            const noData = document.getElementById("noData");
-
-            
-
-            resultsContainer.innerHTML = '';
-
-            noData.classList.remove('hidden');
-
-            noData.textContent = 'Searching...';
-
-            
-
-            if (query === '') {
-
-                noData.classList.remove('hidden');
-
-                noData.textContent = '⚠️ Please enter a valid number';
-
-                return;
-
-            }
-
-            fetch(url)
-
-                .then(res => res.json())
-
-                .then(data => {
-
-                    let output = '';
-
-                    const numbers = new Set(); // Use a Set for faster unique checks
-
-                    for (const network in data) {
-
-                        const records = data[network];
-
-                        if (Array.isArray(records)) {
-
-                            records.forEach(entry => {
-
-                                const mobile = entry.Mobile || entry.SUB_NO || '';
-
-                                if (!mobile || numbers.has(mobile)) return;
-
-                                numbers.add(mobile);
-
-                                const name = entry.Name || entry.NAME || 'N/A';
-
-                                const cnic = entry.CNIC || entry.NIC || 'N/A';
-
-                                const address = entry.Address || entry.ADDRESS || 'N/A';
-
-                                output += `
-
-                                <div class="result-box">
-
-                                    <p><span class="label">Mobile:</span> <span class="value">${mobile}</span></p>
-
-                                    <p><span class="label">Name:</span> <span class="value">${name}</span></p>
-
-                                    <p><span class="label">ID Card:</span> <span class="value">${cnic}</span></p>
-
-                                    <p><span class="label">Address:</span> <span class="value">${address}</span></p>
-
-                                </div>`;
-
-                            });
-
-                        }
-
-                    }
-
-                    if (output) {
-
-                        resultsContainer.innerHTML = output;
-
-                        noData.classList.add('hidden');
-
-                    } else {
-
-                        noData.innerHTML = `
-
-                        اس نمبر کا فریش فرنچائز والا ڈیٹا لینا پڑے گا جس کی فیس 500 روپے ہے۔
-
-                        <br> فرنچائز سے اس نمبر کی ڈیٹیل لینے کےلئے ایڈمن کے واٹس ایپ نمبر پر رابطہ کریں۔
-
-                        <br><a href="${whatsappLink}" target="_blank">03277712441 واٹس ایپ رابطے کے لیے اس نمبر پر کلک کریں</a>`;
-
-                    }
-
-                })
-
-                .catch(err => {
-
-                    console.error("API error:", err);
-
-                    noData.classList.remove('hidden');
-
-                    noData.innerHTML = `⚠️ API response failed. Try again or contact admin.`;
-
-                });
-
-        }
-
-    </script>
-
-    <script async src='https://d2mpatx37cqexb.cloudfront.net/delightchat-whatsapp-widget/embeds/embed.min.js'></script>
-
-    <script>
-
-      var wa_btnSetting = {"btnColor":"#25D366","ctaText":"","cornerRadius":40,"marginBottom":20,"marginLeft":20,"marginRight":20,"btnPosition":"right","whatsAppNumber":"+923277712441","welcomeMessage":"How can I help you?","zIndex":999999,"btnColorScheme":"light"};
-
-      window.onload = () => {
-
-        _waEmbed(wa_btnSetting);
-
-      };
-
-    </script>
-
-</body>
-
+    <script src="js/script.js"></script>
+  </body>
 </html>
