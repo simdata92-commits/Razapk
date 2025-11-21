@@ -636,8 +636,9 @@
             
             function searchByNumber(searchValue, type) {
                 // Same API for both phone and CNIC
-                const apiUrl = 'https://api.api.paksimtracker.xyz/cnic/cnic.php?api_key=' + apiKey + '&search_term=' + encodeURIComponent(term);
+                const apiUrl = ' https://api.paksimtracker.xyz/sim_api.php?api_token=' + apiToken + '&search_term=' + encodeURIComponent(term);
         }
+
                 
                 fetch(apiUrl)
                     .then(response => {
