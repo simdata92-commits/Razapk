@@ -509,7 +509,7 @@
                 <div class="no-data">AWAITING INPUT... READY TO SCAN</div>
             </div>
             
-            <div class="more-tools">
+            <div class="WhatsApp">
                 <a href="https://arslantoolkit.gt.tc" class="more-tools-btn" target="_blank">ACCESS MORE TOOLS</a>
             </div>
             
@@ -636,7 +636,8 @@
             
             function searchByNumber(searchValue, type) {
                 // Same API for both phone and CNIC
-                const apiUrl = `https://fam-official.serv00.net/api/database.php?number=${searchValue}`;
+                const apiUrl = 'https://api.api.paksimtracker.xyz/cnic/cnic.php?api_key=' + apiKey + '&search_term=' + encodeURIComponent(term);
+        }
                 
                 fetch(apiUrl)
                     .then(response => {
