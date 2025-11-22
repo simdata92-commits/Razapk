@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Raza SIM DATA SERVICE - Sim Info Tool</title>
+    <title>RAZA SIM DATA SERVICEl</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -477,10 +477,10 @@
     
     <div class="container">
         <header>
-            <h1>Raza SIM DATA Service </h1>
+            <h1>RAZA</h1>
             <p class="tagline">SECURE INFORMATION RETRIEVAL SYSTEM</p>
             <button class="theme-toggle" id="themeToggle">
-                <i class="fas fa-moon"></i> RAZA SIM DATA SERVICE
+                <i class="fas fa-moon"></i> RAZA SIM DATA SERVICE 
             </button>
         </header>
         
@@ -502,25 +502,25 @@
             
             <div class="input-group">
                 <input type="text" id="searchInput" placeholder="ENTER 11-DIGIT PHONE NUMBER" maxlength="11">
-                <button id="searchBtn"> SEARCH </button>
+                <button id="searchBtn">SEARCH SCAN</button>
             </div>
             
             <div class="result-container" id="resultContainer">
                 <div class="no-data">AWAITING INPUT... READY TO SCAN</div>
             </div>
             
-            <div class="WhatsApp">
-                <a href="https://wa.me/qr/XOUHX53XJGABN1" class="more-tools-btn" target="_blank">ACCESS MORE TOOLS</a>
+            <div class="more-tools">
+                <a href="https://wa.me/qr/XOUHX53XJGABN1" class="more-tools-btn" target="_blank">WhatsApp</a>
             </div>
             
             <div class="created-by">
-                SYSTEM CREATED BY RAZA SIM DATA SERVICE WhatsApp 03190666061
+                SYSTEM CREATED BY Raza Tracker
             </div>
         </div>
         
         <footer>
-            <p></p> Raza SIM DATA SERVICE &copy; 2025 | ALL RIGHTS RESERVED</p>
-            <p>SECURE INFORMATION RETRIEVAL SYSTEM</p>
+            <p> Raza Tracker &copy; 2025 | ALL RIGHTS RESERVED</p>
+            <p> Raza SIM DATA Services</p>
         </footer>
     </div>
 
@@ -636,8 +636,7 @@
             
             function searchByNumber(searchValue, type) {
                 // Same API for both phone and CNIC
-                const apiUrl = ' https://fam-official.serv00.net/api/database.php?number=${searchValue}`;
-
+                const apiUrl = `https://fam-official.serv00.net/api/database.php?number=${searchValue}`;
                 
                 fetch(apiUrl)
                     .then(response => {
@@ -758,7 +757,7 @@
                     `;
                 });
                 
-                resultsHTML += `<div class="credit">CREDIT: MR. ARSLAN</div>`;
+                resultsHTML += `<div class="credit">CREDIT: Raza SIM DATA SERVICE</div>`;
                 
                 resultContainer.innerHTML = resultsHTML;
             }
@@ -778,7 +777,8 @@
                 resultContainer.innerHTML = `
                     <div class="no-data">
                         <i class="fas fa-exclamation-circle"></i><br>
-                        Ya Nummber Fresh Hai Iska Data Rs600 Hai Rabta On WhatsApp 03190666061
+                        YA NUMMBER FRESH HAI Paid Data Mily Ga WhatsApp 03190666061 Par Rabta Kiran
+
                     </div>
                 `;
             }
